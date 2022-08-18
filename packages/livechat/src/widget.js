@@ -247,6 +247,9 @@ function pageVisited(change) {
 		title: document.title,
 	});
 }
+function sendProducInforMessage(message) {
+	callHook('sendProducInforMessage', message);
+}
 
 function setCustomField(key, value, overwrite) {
 	if (typeof overwrite === 'undefined') {
@@ -450,6 +453,7 @@ window.RocketChat.livechat = {
 	minimizeWidget,
 	setBusinessUnit,
 	clearBusinessUnit,
+	sendProducInforMessage,
 
 	// callbacks
 	onChatMaximized(fn) { registerCallback('chat-maximized', fn); },

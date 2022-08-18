@@ -207,10 +207,8 @@ export const sendMessage = function (user, message, room, upsert = false) {
 	if (!user || !message || !room._id) {
 		return false;
 	}
-
 	validateMessage(message, room, user);
 	prepareMessageObject(message, room._id, user);
-
 	if (settings.get('Message_Read_Receipt_Enabled')) {
 		message.unread = true;
 	}
@@ -241,7 +239,7 @@ export const sendMessage = function (user, message, room, upsert = false) {
 	cleanupMessageObject(message);
 
 	parseUrlsInMessage(message);
-
+	console.log('Before db update');
 	message = callbacks.run('beforeSaveMessage', message, room);
 	if (message) {
 		if (message._id && upsert) {

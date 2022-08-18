@@ -8,6 +8,7 @@ import { JoinCallButton } from '../../Calls/JoinCallButton';
 import { createClassName, getAttachmentUrl, MemoizedComponent } from '../../helpers';
 import Message from '../Message';
 import MessageSeparator from '../MessageSeparator';
+import PostInforCard from '../PostInforCard';
 import { TypingIndicator } from '../TypingIndicator';
 import styles from './styles.scss';
 
@@ -120,7 +121,12 @@ export class MessageList extends MemoizedComponent {
 			const previousMessage = messages[i - 1];
 			const message = messages[i];
 			const nextMessage = messages[i + 1];
-
+			if (message.t === 'post-infor-card') {
+				items.push(
+					<PostInforCard data={message.data} />,
+				);
+				continue;
+			}
 			if ((message.t === constants.webRTCCallStartedMessageType)
 				&& message.actionLinks && message.actionLinks.length
 				&& ongoingCall && isCallOngoing(ongoingCall.callStatus)

@@ -39,6 +39,31 @@ const api = {
 
 		Livechat.sendVisitorNavigation({ token, rid, pageInfo: { change, title, location: { href } } });
 	},
+	async sendProducInforMessage(message) {
+		const { token, room: { _id: rid } = {} } = store.state;
+		const url = 'http://localhost:3000/api/v1/livechat/system-message';
+
+		const data = {
+			token,
+			rid,
+			data: message,
+			t: 'post-infor-card',
+		};
+		console.log(data);
+		const res = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		if (res.ok) {
+			console.log('Send success');
+		} else {
+			console.log('Send fail');
+		}
+	},
 
 	setCustomField(key, value, overwrite = true) {
 		CustomFields.setCustomField(key, value, overwrite);
