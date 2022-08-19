@@ -188,7 +188,7 @@
 	"dependencies": {
 		"@babel/runtime": "^7.18.9",
 		"@bugsnag/js": "^7.17.0",
-		"@google-cloud/storage": "^5.20.5",
+		"@google-cloud/storage": "^6.4.1",
 		"@nivo/bar": "0.79.1",
 		"@nivo/core": "0.79.0",
 		"@nivo/heatmap": "0.79.1",
