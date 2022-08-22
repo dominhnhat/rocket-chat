@@ -122,6 +122,7 @@ export class MessageList extends MemoizedComponent {
 			const message = messages[i];
 			const nextMessage = messages[i + 1];
 			if (message.t === 'post-infor-card') {
+				console.log(message.data);
 				items.push(
 					<PostInforCard data={message.data} />,
 				);
