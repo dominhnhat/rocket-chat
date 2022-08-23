@@ -14,7 +14,7 @@ function formatPrice(price, demand) {
 const SystemMessage = memo(({ data }) => (
 	<li>
 		<div class={createClassName(styles, 'post-infor')}>
-			<img class={createClassName(styles, 'post-infor__cover')} src='https://maico-hub-record.ss-hn-1.bizflycloud.vn/apartment-resource/4194d2c1-cc2b-4563-93cd-5f49789e7921/04-01-2022_0928/image/z3079110799827_8d198e826b4107154877f860f9114c4a.jpg' />
+			<img class={createClassName(styles, 'post-infor__cover')} src={ data.thumbnail } />
 			<div class={createClassName(styles, 'post-infor__content')}>
 				<p class={createClassName(styles, 'post-infor__content__title')}>
 					{ data.title }

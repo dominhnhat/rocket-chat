@@ -41,7 +41,6 @@ const api = {
 	},
 	async sendProducInforMessage(message) {
 		const { token, room: { _id: rid } = {} } = store.state;
-		const url = 'http://localhost:3000/api/v1/livechat/system-message';
 
 		const data = {
 			token,
@@ -49,20 +48,29 @@ const api = {
 			data: message,
 			t: 'post-infor-card',
 		};
-		console.log(data);
-		const res = await fetch(url, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		});
+		Livechat.post('livechat/system-message', data, false);
+		// const url = 'http://localhost:3000/api/v1/livechat/system-message';
 
-		if (res.ok) {
-			console.log('Send success');
-		} else {
-			console.log('Send fail');
-		}
+		// const data = {
+		// 	token,
+		// 	rid,
+		// 	data: message,
+		// 	t: 'post-infor-card',
+		// };
+		// console.log(data);
+		// const res = await fetch(url, {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 	},
+		// 	body: JSON.stringify(data),
+		// });
+
+		// if (res.ok) {
+		// 	console.log('Send success');
+		// } else {
+		// 	console.log('Send fail');
+		// }
 	},
 
 	setCustomField(key, value, overwrite = true) {
