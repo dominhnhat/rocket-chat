@@ -40,15 +40,27 @@ const api = {
 		Livechat.sendVisitorNavigation({ token, rid, pageInfo: { change, title, location: { href } } });
 	},
 	async sendProducInforMessage(message) {
-		const { token, room: { _id: rid } = {} } = store.state;
+		const { token, room, messages } = store.state;
+
+		const postInforCardData = messages.find((c) => c.data && c.data.id === message.id);
+
+		if (postInforCardData) { return; }
 
 		const data = {
 			token,
-			rid,
 			data: message,
 			t: 'post-infor-card',
 		};
-		Livechat.post('livechat/system-message', data, false);
+		console.log({ room });
+		if (!room) {
+			console.log({ setProductCardInfor: data });
+			store.setState({ tempMessage: data });
+			console.log({ stateTempMassage: store.state.tempMessage });
+		} else {
+			const { _id: rid } = room;
+			data.rid = rid;
+			Livechat.post('livechat/system-message', data, false);
+		}
 		// const url = 'http://localhost:3000/api/v1/livechat/system-message';
 
 		// const data = {

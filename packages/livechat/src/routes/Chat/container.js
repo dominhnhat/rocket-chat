@@ -11,7 +11,7 @@ import { loadConfig } from '../../lib/main';
 import { parentCall, runCallbackEventEmitter } from '../../lib/parentCall';
 import { createToken } from '../../lib/random';
 import { initRoom, closeChat, loadMessages, loadMoreMessages, defaultRoomParams, getGreetingMessages } from '../../lib/room';
-import { Consumer } from '../../store';
+import store, { Consumer } from '../../store';
 import Chat from './component';
 
 class ChatContainer extends Component {
@@ -123,6 +123,7 @@ class ChatContainer extends Component {
 
 		try {
 			this.stopTypingDebounced.stop();
+			await Promise.all([this.sendTempMessage(rid)]);
 			await Promise.all([
 				this.stopTyping({ rid, username: user.username }),
 				Livechat.sendMessage({ msg, token, rid }),
@@ -133,6 +134,16 @@ class ChatContainer extends Component {
 			await dispatch({ alerts: (alerts.push(alert), alerts) });
 		}
 		await Livechat.notifyVisitorTyping(rid, user.username, false);
+	};
+
+	sendTempMessage = (rid) => {
+		const { tempMessage } = store.state;
+		console.log({ chatcontainer: tempMessage });
+		if (tempMessage) {
+			tempMessage.rid = rid;
+			Livechat.post('livechat/system-message', tempMessage, false);
+			store.setState({ tempMessage: undefined });
+		}
 	};
 
 	doFileUpload = async (rid, file) => {

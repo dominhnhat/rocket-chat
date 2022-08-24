@@ -116,18 +116,24 @@ export class MessageList extends MemoizedComponent {
 		const items = [];
 		const { incomingCallAlert } = store.state;
 		const { ongoingCall } = store.state;
-
+		const { tempMessage } = store.state;
+		console.log({ messagelist: tempMessage });
+		if (tempMessage) {
+			items.push(
+				<PostInforCard data={tempMessage.data} />,
+			);
+		}
 		for (let i = 0; i < messages.length; ++i) {
 			const previousMessage = messages[i - 1];
 			const message = messages[i];
 			const nextMessage = messages[i + 1];
 			if (message.t === 'post-infor-card') {
-				console.log(message.data);
 				items.push(
 					<PostInforCard data={message.data} />,
 				);
 				continue;
 			}
+
 			if ((message.t === constants.webRTCCallStartedMessageType)
 				&& message.actionLinks && message.actionLinks.length
 				&& ongoingCall && isCallOngoing(ongoingCall.callStatus)

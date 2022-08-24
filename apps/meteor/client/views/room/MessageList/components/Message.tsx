@@ -12,6 +12,7 @@ import MessageContent from './MessageContent';
 import MessageContentIgnored from './MessageContentIgnored';
 import MessageHeader from './MessageHeader';
 import { MessageIndicators } from './MessageIndicators';
+import PostInforCard from './PostInforCard/index';
 import Toolbox from './Toolbox';
 
 const Message: FC<{ message: IMessage; sequential: boolean; subscription?: ISubscription; id: IMessage['_id'] }> = ({
@@ -30,6 +31,9 @@ const Message: FC<{ message: IMessage; sequential: boolean; subscription?: ISubs
 	const toggleSelected = useToggleSelect(message._id);
 	const isSelected = useIsSelectedMessage(message._id);
 	useCountSelected();
+
+	const isPostInforCard = !!message.t && message.t.includes('post-infor-card');
+	console.log({ isPostInfor: isPostInforCard });
 
 	return (
 		<MessageTemplate
@@ -59,7 +63,10 @@ const Message: FC<{ message: IMessage; sequential: boolean; subscription?: ISubs
 			<MessageContainer>
 				{!sequential && <MessageHeader message={message} />}
 
-				{!isMessageIgnored && <MessageContent id={message._id} message={message} subscription={subscription} sequential={sequential} />}
+				{isPostInforCard && <PostInforCard message={message} />}
+				{!isMessageIgnored && !isPostInforCard && (
+					<MessageContent id={message._id} message={message} subscription={subscription} sequential={sequential} />
+				)}
 				{isMessageIgnored && (
 					<MessageBody data-qa-type='message-body'>
 						<MessageContentIgnored onShowMessageIgnored={toggleMessageIgnored} />
