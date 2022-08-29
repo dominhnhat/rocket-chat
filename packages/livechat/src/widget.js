@@ -72,10 +72,12 @@ function callHook(action, params) {
 const updateWidgetStyle = (isOpened) => {
 	if (smallScreen && isOpened) {
 		scrollPosition = document.documentElement.scrollTop;
+		document.body.style.overflow = 'hidden';
 		document.body.classList.add('rc-livechat-mobile-full-screen');
 	} else {
 		document.body.classList.remove('rc-livechat-mobile-full-screen');
 		if (smallScreen) {
+			document.body.style.overflow = null;
 			document.documentElement.scrollTop = scrollPosition;
 		}
 	}
@@ -93,10 +95,12 @@ const updateWidgetStyle = (isOpened) => {
 
 		widget.style.height = smallScreen ? '100%' : `${ WIDGET_MARGIN + widget_height + WIDGET_MARGIN + WIDGET_MINIMIZED_HEIGHT }px`;
 		widget.style.width = smallScreen ? '100%' : `${ WIDGET_MARGIN + WIDGET_OPEN_WIDTH + WIDGET_MARGIN }px`;
+		widget.style.zIndex = '12345';
 	} else {
 		widget.style.left = 'auto';
 		widget.style.width = `${ WIDGET_MARGIN + WIDGET_MINIMIZED_WIDTH + WIDGET_MARGIN }px`;
 		widget.style.height = `${ WIDGET_MARGIN + WIDGET_MINIMIZED_HEIGHT + WIDGET_MARGIN }px`;
+		widget.style.zIndex = '20';
 	}
 };
 
@@ -109,8 +113,11 @@ const createWidget = (url) => {
 	widget.style.maxHeight = '100vh';
 	widget.style.bottom = '0';
 	widget.style.right = '0';
-	widget.style.zIndex = '12345';
+	widget.style.zIndex = '20';
+	widget.style.transition = 'height .5s ease';
+
 	widget.dataset.state = 'closed';
+
 
 	const container = document.createElement('div');
 	container.className = 'rocketchat-container';
@@ -187,6 +194,7 @@ const api = {
 	},
 
 	minimizeWindow() {
+		// document.body.style.overflow = null;
 		closeWidget();
 	},
 
@@ -195,6 +203,7 @@ const api = {
 			api.popup.close();
 			api.popup = null;
 		}
+		// if(smallScreen) document.body.style.overflow = 'hidden';
 		openWidget();
 	},
 
@@ -250,7 +259,9 @@ function pageVisited(change) {
 function sendProducInforMessage(message) {
 	callHook('sendProducInforMessage', message);
 }
-
+function setChatButtonHidden(flag) {
+	callHook('setChatButtonHidden', flag);
+}
 function setCustomField(key, value, overwrite) {
 	if (typeof overwrite === 'undefined') {
 		overwrite = true;
@@ -454,6 +465,7 @@ window.RocketChat.livechat = {
 	setBusinessUnit,
 	clearBusinessUnit,
 	sendProducInforMessage,
+	setChatButtonHidden,
 
 	// callbacks
 	onChatMaximized(fn) { registerCallback('chat-maximized', fn); },

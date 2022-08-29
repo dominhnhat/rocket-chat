@@ -14,7 +14,9 @@ function formatPrice(price, demand) {
 const SystemMessage = memo(({ data }) => (
 	<li>
 		<div class={createClassName(styles, 'post-infor')}>
-			<img class={createClassName(styles, 'post-infor__cover')} src={ data.thumbnail } />
+			<div>
+				<img class={createClassName(styles, 'post-infor__cover')} src={ data.thumbnail } />
+			</div>
 			<div class={createClassName(styles, 'post-infor__content')}>
 				<p class={createClassName(styles, 'post-infor__content__title')}>
 					{ data.title }
@@ -38,7 +40,7 @@ const SystemMessage = memo(({ data }) => (
 						<svg width='13' height='14' viewBox='0 0 15 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
 							<path d='M1.66667 0.5H0V2.16667H1.66667V0.5ZM3.33333 0.5H5V2.16667H3.33333V0.5ZM8.33333 0.5H6.66667V2.16667H8.33333V0.5ZM10 0.5H11.6667V2.16667H10V0.5ZM13.3333 0.5H15V2.16667H13.3333V0.5ZM0 3.83333H1.66667V5.5H0V3.83333ZM1.66667 7.16667H0V8.83333H1.66667V7.16667ZM0 10.5H1.66667V12.1667H0V10.5ZM1.66667 13.8333H0V15.5H1.66667V13.8333ZM3.33333 13.8333H5V15.5H3.33333V13.8333ZM8.33333 13.8333H6.66667V15.5H8.33333V13.8333ZM13.3333 7.16667H15V8.83333H13.3333V7.16667ZM15 3.83333H13.3333V5.5H15V3.83333ZM10 12.1667V10.5H15V12.1667H13.3333V13.8333H11.6667V15.5H10V12.1667ZM13.3333 13.8333V15.5H15V13.8333H13.3333Z' fill='#1F2937' />
 						</svg>
-						{ data.acreage }
+						{ data.acreage }m²
 					</div>
 				</div>
 				<p class={createClassName(styles, 'post-infor__content__price')}>{ formatPrice(data.price, data.demand) }</p>

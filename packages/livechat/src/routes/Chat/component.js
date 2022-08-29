@@ -41,6 +41,7 @@ class Chat extends Component {
 		const { onTop, onBottom } = this.props;
 
 		if (region === MessageList.SCROLL_AT_BOTTOM) {
+			console.log('bottom');
 			this.setState({ atBottom: true });
 			onBottom && onBottom();
 			return;
@@ -67,6 +68,7 @@ class Chat extends Component {
 		if (this.props.onSubmit) {
 			this.props.onSubmit(text);
 			this.setState({ text: '' });
+			this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
 			this.turnOffEmojiPicker();
 		}
 	};
