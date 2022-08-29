@@ -2,6 +2,7 @@ import { useEffect } from 'preact/hooks';
 
 import ChatIcon from '../../icons/chat.svg';
 import CloseIcon from '../../icons/close.svg';
+import store from '../../store';
 import { Button } from '../Button';
 import { Footer, FooterContent, PoweredBy } from '../Footer';
 import { PopoverContainer } from '../Popover';
@@ -84,6 +85,8 @@ const CssVar = ({ theme }) => {
 	`}</style>;
 };
 
+const { hideButton } = store.state;
+console.log({ hideButton });
 export const Screen = ({
 	theme = {},
 	agent,
@@ -136,14 +139,14 @@ export const Screen = ({
 			</PopoverContainer>
 		</div>
 
-		<ChatButton
+		{!hideButton && <ChatButton
 			agent={agent}
 			triggered={triggered}
 			text={title}
 			badge={unread}
 			minimized={minimized}
 			onClick={minimized ? onRestore : onMinimize}
-		/>
+		/>}
 
 		{sound && <Sound src={sound.src} play={sound.play} onStop={onSoundStop} dismissNotification={dismissNotification} />}
 	</div>

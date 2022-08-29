@@ -26,6 +26,7 @@ export class MessageList extends MemoizedComponent {
 	// eslint-disable-next-line no-use-before-define
 	scrollPosition = MessageList.SCROLL_AT_BOTTOM;
 
+
 	handleScroll = () => {
 		if (this.isResizingFromBottom) {
 			this.base.scrollTop = this.base.scrollHeight;
@@ -38,7 +39,8 @@ export class MessageList extends MemoizedComponent {
 			scrollPosition = MessageList.SCROLL_AT_BOTTOM;
 		} else if (this.base.scrollTop === 0) {
 			scrollPosition = MessageList.SCROLL_AT_TOP;
-		} else if (this.base.scrollHeight === this.base.scrollTop + this.base.clientHeight) {
+		} else if (this.base.scrollHeight <= this.base.scrollTop + this.base.clientHeight + 1
+				&& this.base.scrollHeight >= this.base.scrollTop + this.base.clientHeight - 1) {
 			scrollPosition = MessageList.SCROLL_AT_BOTTOM;
 		} else {
 			scrollPosition = MessageList.SCROLL_FREE;
@@ -117,7 +119,6 @@ export class MessageList extends MemoizedComponent {
 		const { incomingCallAlert } = store.state;
 		const { ongoingCall } = store.state;
 		const { tempMessage } = store.state;
-		console.log({ messagelist: tempMessage });
 		if (tempMessage) {
 			items.push(
 				<PostInforCard data={tempMessage.data} />,

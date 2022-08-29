@@ -72,10 +72,12 @@ function callHook(action, params) {
 const updateWidgetStyle = (isOpened) => {
 	if (smallScreen && isOpened) {
 		scrollPosition = document.documentElement.scrollTop;
+		document.body.style.overflow = 'hidden';
 		document.body.classList.add('rc-livechat-mobile-full-screen');
 	} else {
 		document.body.classList.remove('rc-livechat-mobile-full-screen');
 		if (smallScreen) {
+			document.body.style.overflow = null;
 			document.documentElement.scrollTop = scrollPosition;
 		}
 	}
@@ -187,6 +189,7 @@ const api = {
 	},
 
 	minimizeWindow() {
+		// document.body.style.overflow = null;
 		closeWidget();
 	},
 
@@ -195,6 +198,7 @@ const api = {
 			api.popup.close();
 			api.popup = null;
 		}
+		// if(smallScreen) document.body.style.overflow = 'hidden';
 		openWidget();
 	},
 
@@ -250,7 +254,9 @@ function pageVisited(change) {
 function sendProducInforMessage(message) {
 	callHook('sendProducInforMessage', message);
 }
-
+function setChatButtonHidden(flag) {
+	callHook('setChatButtonHidden', flag);
+}
 function setCustomField(key, value, overwrite) {
 	if (typeof overwrite === 'undefined') {
 		overwrite = true;
@@ -454,6 +460,7 @@ window.RocketChat.livechat = {
 	setBusinessUnit,
 	clearBusinessUnit,
 	sendProducInforMessage,
+	setChatButtonHidden,
 
 	// callbacks
 	onChatMaximized(fn) { registerCallback('chat-maximized', fn); },
